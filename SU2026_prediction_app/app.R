@@ -1,4 +1,8 @@
-required_packages <- c("shiny", "DT", "ggplot2", "dplyr", "stringr", "glmnet", "rpart", "partykit", "ranger", "xgboost", "nnet")
+bridge_only <- tolower(Sys.getenv("SU2026_BRIDGE_ONLY", "false")) %in% c("1", "true", "yes")
+required_packages <- c(
+  if (!bridge_only) c("shiny", "DT", "ggplot2"),
+  "dplyr", "stringr", "glmnet", "rpart", "partykit", "ranger", "xgboost", "nnet"
+)
 missing_packages <- setdiff(required_packages, rownames(installed.packages()))
 if (length(missing_packages) > 0) {
   stop(
@@ -772,6 +776,7 @@ force_plot_payload <- function(shap, max_features = 9) {
   )
 }
 
+if (!bridge_only) {
 task_choices <- setNames(names(artifacts$tasks), vapply(artifacts$tasks, `[[`, character(1), "title"))
 
 ui <- fluidPage(
@@ -1626,3 +1631,4 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+}

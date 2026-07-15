@@ -25,6 +25,7 @@ COPY SU2026_prediction_app/ SU2026_prediction_app/
 COPY SU2026_prediction_web/ SU2026_prediction_web/
 
 ENV SU2026_PORTABLE_ARTIFACT=1 \
+    SU2026_BRIDGE_ONLY=1 \
     HOST=0.0.0.0 \
     PORT=10000
 

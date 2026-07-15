@@ -9,3 +9,5 @@ services:
     envVars:
       - key: SU2026_PORTABLE_ARTIFACT
         value: "1"
+      - key: SU2026_BRIDGE_ONLY
+        value: "1"
