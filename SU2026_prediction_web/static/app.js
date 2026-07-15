@@ -38,7 +38,33 @@ const els = {
   recordSummaryValue: document.getElementById("recordSummaryValue"),
   pathwaySummaryValue: document.getElementById("pathwaySummaryValue"),
   toast: document.getElementById("toast"),
+  themeToggle: document.getElementById("themeToggle"),
 };
+
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function chartPalette() {
+  return {
+    title: cssVar("--chart-title") || "#1d1d1f",
+    ink: cssVar("--chart-ink") || "#1d1d1f",
+    muted: cssVar("--chart-muted") || "#6e6e73",
+    grid: cssVar("--chart-grid") || "rgba(0,0,0,0.08)",
+    axis: cssVar("--chart-axis") || "#1d1d1f",
+    pos: cssVar("--chart-pos") || "#d6a72d",
+    neg: cssVar("--chart-neg") || "#b4245c",
+    posText: cssVar("--chart-pos-text") || "#1d1d1f",
+    negText: cssVar("--chart-neg-text") || "#ffffff",
+    bar: cssVar("--chart-bar") || "#0071e3",
+    track: cssVar("--chart-track") || "rgba(0,0,0,0.06)",
+    dot: cssVar("--chart-dot") || "#12a594",
+    labelBg: cssVar("--chart-label-bg") || "rgba(255,255,255,0.92)",
+    labelBorder: cssVar("--chart-label-border") || "rgba(0,0,0,0.12)",
+    connector: cssVar("--chart-connector") || "rgba(0,0,0,0.2)",
+    surface: cssVar("--surface") || "#ffffff",
+  };
+}
 
 function isYes(value) {
   const n = Number(String(value ?? "").replace(",", "."));
@@ -805,9 +831,10 @@ function renderForcePlot(shap) {
   const barTop = 190;
   const barMid = 220;
   const barBottom = 250;
+  const palette = chartPalette();
   const colors = {
-    "Aumenta predizione": "#d6a72d",
-    "Riduce predizione": "#a12c5e",
+    "Aumenta predizione": palette.pos,
+    "Riduce predizione": palette.neg,
   };
 
   function arrowPolygon(seg) {
@@ -825,8 +852,8 @@ function renderForcePlot(shap) {
   for (let i = 0; i <= 5; i++) {
     const gx = margin.left + (i / 5) * (w - margin.left - margin.right);
     const val = min + (i / 5) * (max - min);
-    grid.push(`<line x1="${gx}" y1="120" x2="${gx}" y2="${axisY}" stroke="#e8edf4"/>`);
-    grid.push(`<text x="${gx}" y="${axisY + 28}" text-anchor="middle" fill="#667085" font-size="13">${fmtNum(val, 2)}</text>`);
+    grid.push(`<line x1="${gx}" y1="120" x2="${gx}" y2="${axisY}" stroke="${palette.grid}"/>`);
+    grid.push(`<text x="${gx}" y="${axisY + 28}" text-anchor="middle" fill="${palette.muted}" font-size="13">${fmtNum(val, 2)}</text>`);
   }
 
   const labelLanes = [94, 120, 146, 172];
@@ -876,18 +903,18 @@ function renderForcePlot(shap) {
       const mid = (x(seg.x0) + x(seg.x1)) / 2;
       const width = Math.abs(x(seg.x1) - x(seg.x0));
       const contribLabel = width > 45 ? `${seg.contribution >= 0 ? "+" : ""}${fmtNum(seg.contribution, 3)}` : "";
-      const textColor = seg.direction === "Aumenta predizione" ? "#111827" : "#ffffff";
+      const textColor = seg.direction === "Aumenta predizione" ? palette.posText : palette.negText;
       const label = labelLayout.get(i);
       const labelSvg = label
         ? `
-          <polyline points="${mid},${barTop - 8} ${label.x},${label.y + 8}" fill="none" stroke="#c7d3e1" stroke-width="1"/>
-          <rect x="${label.x - label.width / 2}" y="${label.y - 17}" width="${label.width}" height="22" rx="5" fill="rgba(255,255,255,0.88)" stroke="#dbe5ef"/>
-          <text x="${label.x}" y="${label.y}" text-anchor="middle" fill="#253247" font-size="12">${escapeXml(label.label)}</text>
+          <polyline points="${mid},${barTop - 8} ${label.x},${label.y + 8}" fill="none" stroke="${palette.connector}" stroke-width="1"/>
+          <rect x="${label.x - label.width / 2}" y="${label.y - 17}" width="${label.width}" height="22" rx="6" fill="${palette.labelBg}" stroke="${palette.labelBorder}"/>
+          <text x="${label.x}" y="${label.y}" text-anchor="middle" fill="${palette.ink}" font-size="12">${escapeXml(label.label)}</text>
         `
         : "";
       return `
         ${labelSvg}
-        <polygon points="${arrowPolygon(seg)}" fill="${colors[seg.direction]}" stroke="#111827" stroke-width="1"/>
+        <polygon points="${arrowPolygon(seg)}" fill="${colors[seg.direction]}" stroke="${palette.axis}" stroke-width="1"/>
         <text x="${mid}" y="${barMid + 6}" text-anchor="middle" fill="${textColor}" font-size="18" font-weight="760">${contribLabel}</text>
       `;
     })
@@ -901,20 +928,20 @@ function renderForcePlot(shap) {
     <svg viewBox="0 0 ${w} ${h}" role="img" aria-labelledby="forceTitle forceDescription">
       <title id="forceTitle">Contributi locali SHAP</title>
       <desc id="forceDescription">${escapeXml(chartDescription)}</desc>
-      <text x="${margin.left}" y="34" fill="#111827" font-size="26" font-weight="760">Contributi locali SHAP</text>
-      <text x="${margin.left}" y="58" fill="#667085" font-size="14">${escapeXml(state.result.task.model_label)} · ${escapeXml(displayScale(data.scale))}</text>
+      <text x="${margin.left}" y="34" fill="${palette.title}" font-size="26" font-weight="700">Contributi locali SHAP</text>
+      <text x="${margin.left}" y="58" fill="${palette.muted}" font-size="14">${escapeXml(state.result.task.model_label)} · ${escapeXml(displayScale(data.scale))}</text>
       ${grid.join("")}
-      <line x1="${margin.left}" y1="${axisY}" x2="${w - margin.right}" y2="${axisY}" stroke="#111827" stroke-width="2"/>
-      <line x1="${x(data.base)}" y1="110" x2="${x(data.base)}" y2="${axisY}" stroke="#111827" stroke-dasharray="5 5" stroke-width="1.5"/>
-      <line x1="${x(data.pred)}" y1="110" x2="${x(data.pred)}" y2="${axisY}" stroke="#111827" stroke-width="1.8"/>
+      <line x1="${margin.left}" y1="${axisY}" x2="${w - margin.right}" y2="${axisY}" stroke="${palette.axis}" stroke-width="2"/>
+      <line x1="${x(data.base)}" y1="110" x2="${x(data.base)}" y2="${axisY}" stroke="${palette.axis}" stroke-dasharray="5 5" stroke-width="1.5"/>
+      <line x1="${x(data.pred)}" y1="110" x2="${x(data.pred)}" y2="${axisY}" stroke="${palette.axis}" stroke-width="1.8"/>
       ${segs}
-      <text x="${x(data.base)}" y="${axisY - 28}" text-anchor="${data.base > data.pred ? "start" : "end"}" fill="#1f2937" font-size="14">Valore base: ${escapeXml(baseDisplay)}</text>
-      <text x="${x(data.pred)}" y="${axisY - 8}" text-anchor="${data.pred > data.base ? "start" : "end"}" fill="#1f2937" font-size="14">Output: ${escapeXml(predictionDisplay)}</text>
-      <text x="${w / 2}" y="${h - 22}" text-anchor="middle" fill="#1f2937" font-size="16" font-weight="720">Contributo locale (${escapeXml(displayScale(data.scale))})</text>
-      <rect x="${w / 2 - 128}" y="${h - 55}" width="14" height="14" fill="${colors["Aumenta predizione"]}"/>
-      <text x="${w / 2 - 108}" y="${h - 43}" fill="#344054" font-size="13">Aumenta predizione</text>
-      <rect x="${w / 2 + 52}" y="${h - 55}" width="14" height="14" fill="${colors["Riduce predizione"]}"/>
-      <text x="${w / 2 + 72}" y="${h - 43}" fill="#344054" font-size="13">Riduce predizione</text>
+      <text x="${x(data.base)}" y="${axisY - 28}" text-anchor="${data.base > data.pred ? "start" : "end"}" fill="${palette.ink}" font-size="14">Valore base: ${escapeXml(baseDisplay)}</text>
+      <text x="${x(data.pred)}" y="${axisY - 8}" text-anchor="${data.pred > data.base ? "start" : "end"}" fill="${palette.ink}" font-size="14">Output: ${escapeXml(predictionDisplay)}</text>
+      <text x="${w / 2}" y="${h - 22}" text-anchor="middle" fill="${palette.ink}" font-size="16" font-weight="600">Contributo locale (${escapeXml(displayScale(data.scale))})</text>
+      <rect x="${w / 2 - 128}" y="${h - 55}" width="14" height="14" rx="3" fill="${colors["Aumenta predizione"]}"/>
+      <text x="${w / 2 - 108}" y="${h - 43}" fill="${palette.muted}" font-size="13">Aumenta predizione</text>
+      <rect x="${w / 2 + 52}" y="${h - 55}" width="14" height="14" rx="3" fill="${colors["Riduce predizione"]}"/>
+      <text x="${w / 2 + 72}" y="${h - 43}" fill="${palette.muted}" font-size="13">Riduce predizione</text>
     </svg>
   `;
   pulse(els.forcePlot);
@@ -931,6 +958,7 @@ function renderViolinPlot(payload) {
     els.violinBadge.textContent = "Non disponibile";
     return;
   }
+  const palette = chartPalette();
   const maxValue = Math.max(...summary.map((row) => row.mean_abs_shap), 1e-9);
   const profileCount = Number(payload.sampled_profiles) || 0;
   const rowH = 54;
@@ -943,8 +971,8 @@ function renderViolinPlot(payload) {
   for (let i = 0; i <= 4; i += 1) {
     const gx = margin.left + (i / 4) * plotW;
     const value = (i / 4) * maxValue;
-    axis.push(`<line x1="${gx}" y1="${margin.top - 10}" x2="${gx}" y2="${h - margin.bottom}" stroke="#e7edf5"/>`);
-    axis.push(`<text x="${gx}" y="${h - 24}" text-anchor="middle" fill="#667085" font-size="12">${fmtNum(value, 3)}</text>`);
+    axis.push(`<line x1="${gx}" y1="${margin.top - 10}" x2="${gx}" y2="${h - margin.bottom}" stroke="${palette.grid}"/>`);
+    axis.push(`<text x="${gx}" y="${h - 24}" text-anchor="middle" fill="${palette.muted}" font-size="12">${fmtNum(value, 3)}</text>`);
   }
   const bars = summary.map((row, index) => {
     const center = margin.top + index * rowH + rowH / 2;
@@ -955,11 +983,11 @@ function renderViolinPlot(payload) {
     const aria = `${featureLabel}: importanza media assoluta SHAP ${fmtNum(row.mean_abs_shap, 4)}`;
     return `
       <g aria-label="${escapeXml(aria)}">
-        <text x="${margin.left - 18}" y="${center + 5}" text-anchor="end" fill="#253247" font-size="14" font-weight="650">${escapeXml(truncate(featureLabel, 34))}</text>
-        <rect x="${margin.left}" y="${center - 10}" width="${plotW}" height="20" rx="10" fill="#f1f5fa"/>
-        <rect x="${margin.left}" y="${center - 10}" width="${width}" height="20" rx="10" fill="#3867d6" fill-opacity="${opacity}"/>
-        <circle cx="${end}" cy="${center}" r="6" fill="#0e9384" stroke="#ffffff" stroke-width="2"/>
-        <text x="${w - margin.right + 14}" y="${center + 5}" fill="#344054" font-size="13" font-weight="720">${fmtNum(row.mean_abs_shap, 4)}</text>
+        <text x="${margin.left - 18}" y="${center + 5}" text-anchor="end" fill="${palette.ink}" font-size="14" font-weight="500">${escapeXml(truncate(featureLabel, 34))}</text>
+        <rect x="${margin.left}" y="${center - 10}" width="${plotW}" height="20" rx="10" fill="${palette.track}"/>
+        <rect x="${margin.left}" y="${center - 10}" width="${width}" height="20" rx="10" fill="${palette.bar}" fill-opacity="${opacity}"/>
+        <circle cx="${end}" cy="${center}" r="6" fill="${palette.dot}" stroke="${palette.surface}" stroke-width="2"/>
+        <text x="${w - margin.right + 14}" y="${center + 5}" fill="${palette.muted}" font-size="13" font-weight="600">${fmtNum(row.mean_abs_shap, 4)}</text>
       </g>
     `;
   }).join("");
@@ -974,11 +1002,11 @@ function renderViolinPlot(payload) {
     <svg viewBox="0 0 ${w} ${h}" role="img" aria-labelledby="globalShapTitle globalShapDescription">
       <title id="globalShapTitle">Importanza media assoluta SHAP</title>
       <desc id="globalShapDescription">${escapeXml(description)}</desc>
-      <text x="${margin.left}" y="31" fill="#111827" font-size="25" font-weight="760">Importanza media assoluta SHAP</text>
-      <text x="${margin.left}" y="55" fill="#667085" font-size="13">${escapeXml(payload.model_label || "Modello selezionato")} · ${escapeXml(displayScale(payload.shap_scale))}${approximate ? " · stima approssimata" : ""}</text>
+      <text x="${margin.left}" y="31" fill="${palette.title}" font-size="25" font-weight="700">Importanza media assoluta SHAP</text>
+      <text x="${margin.left}" y="55" fill="${palette.muted}" font-size="13">${escapeXml(payload.model_label || "Modello selezionato")} · ${escapeXml(displayScale(payload.shap_scale))}${approximate ? " · stima approssimata" : ""}</text>
       ${axis.join("")}
       <g>${bars}</g>
-      <text x="${margin.left + plotW / 2}" y="${h - 6}" text-anchor="middle" fill="#1f2937" font-size="14" font-weight="720">Media |SHAP| · ${escapeXml(displayScale(payload.shap_scale))}</text>
+      <text x="${margin.left + plotW / 2}" y="${h - 6}" text-anchor="middle" fill="${palette.ink}" font-size="14" font-weight="600">Media |SHAP| · ${escapeXml(displayScale(payload.shap_scale))}</text>
     </svg>
     <div class="global-shap-accessible">
       <h3>Ranking testuale dell’importanza globale</h3>
@@ -1240,6 +1268,59 @@ document.querySelectorAll(".nav-item").forEach((item) => {
     item.classList.add("active");
     item.setAttribute("aria-current", "page");
   });
+});
+
+/* ---- Theme (Apple-style light/dark toggle) ------------------------------- */
+function currentThemeIsDark() {
+  const attr = document.documentElement.getAttribute("data-theme");
+  if (attr === "dark") return true;
+  if (attr === "light") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+function rerenderCharts() {
+  if (state.result && Array.isArray(state.result.shap)) {
+    renderForcePlot(state.result.shap);
+  }
+  const task = currentTask();
+  if (task) {
+    const cacheKey = `${task.id}:${task.model_id}`;
+    if (state.shapSummaryCache.has(cacheKey)) {
+      renderViolinPlot(state.shapSummaryCache.get(cacheKey));
+    }
+  }
+}
+
+function updateThemeToggleState() {
+  if (!els.themeToggle) return;
+  const dark = currentThemeIsDark();
+  els.themeToggle.setAttribute("aria-pressed", String(dark));
+  els.themeToggle.title = dark ? "Passa al tema chiaro" : "Passa al tema scuro";
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  try {
+    localStorage.setItem("su2026-theme", theme);
+  } catch (err) {
+    /* storage unavailable — theme still applies for this session */
+  }
+  updateThemeToggleState();
+  rerenderCharts();
+}
+
+if (els.themeToggle) {
+  updateThemeToggleState();
+  els.themeToggle.addEventListener("click", () => {
+    applyTheme(currentThemeIsDark() ? "light" : "dark");
+  });
+}
+
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  if (!document.documentElement.getAttribute("data-theme")) {
+    updateThemeToggleState();
+    rerenderCharts();
+  }
 });
 
 init();

@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SU 2026 - Stroke Prediction Studio</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23e9f0ff'/%3E%3Cpath fill='%232563eb' d='M16 5 7 10v10l9 5 9-5V10l-9-5Zm0 3 6 3.4v6.9l-6 3.4-6-3.4v-6.9L16 8Zm-4 6h3v6h-3v-6Zm5 0h3v6h-3v-6Z'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="/static/styles.css?v=20260713-restyle-v4" />
+    <link rel="stylesheet" href="/static/styles.css?v=20260715-apple-v5" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("su2026-theme");
+          if (stored === "dark" || stored === "light") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#mainContent">Vai al contenuto principale</a>
@@ -74,6 +84,10 @@
               Feature set definito
             </span>
             <span class="status-pill">SHAP locale</span>
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema chiaro/scuro" title="Cambia tema">
+              <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.1 3a1 1 0 0 0-.2 1.98 6.5 6.5 0 1 1-7 9.5 1 1 0 0 0-1.86.5A8.5 8.5 0 1 0 12.6 3.03a9.6 9.6 0 0 0-.5-.03Z" /></svg>
+              <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5a1 1 0 0 1 1 1v1.5a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1Zm0 16.5a1 1 0 0 1 1 1V21a1 1 0 0 1-2 0v-1.5a1 1 0 0 1 1-1ZM21 11a1 1 0 0 1 0 2h-1.5a1 1 0 0 1 0-2H21ZM4.5 11a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1.5Zm14.14-6.14a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0ZM7.83 16.17a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 0 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0Zm10.81.06a1 1 0 0 1-1.41 1.41l-1.06-1.06a1 1 0 0 1 1.41-1.41l1.06 1.06ZM7.83 7.83A1 1 0 0 1 6.42 9.24L5.36 8.18A1 1 0 0 1 6.77 6.77l1.06 1.06Z" /></svg>
+            </button>
             <div class="profile-chip" aria-label="Profilo">
               <span class="avatar">CG</span>
               <span>
@@ -217,6 +231,6 @@
     </div>
 
     <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" hidden></div>
-    <script src="/static/app.js?v=20260713-restyle-v4" defer></script>
+    <script src="/static/app.js?v=20260715-apple-v5" defer></script>
   </body>
 </html>
