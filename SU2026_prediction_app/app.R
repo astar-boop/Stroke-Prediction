@@ -1341,6 +1341,166 @@ ui <- fluidPage(
         .input-grid { grid-template-columns: 1fr; }
         .brand-mark { width: 38px; height: 38px; }
       }
+
+      /* ===== Apple product-style single-column layout ===== */
+      .container-fluid { max-width: 100%; padding: 0; }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: var(--topbar);
+        border-bottom: 1px solid var(--line);
+        -webkit-backdrop-filter: saturate(180%) blur(22px);
+        backdrop-filter: saturate(180%) blur(22px);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        max-width: 1040px;
+        min-height: 54px;
+        margin: 0 auto;
+        padding: 8px 24px;
+      }
+      .topbar .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+      .topbar .brand-mark {
+        width: 30px; height: 30px; border-radius: 9px;
+        box-shadow: 0 4px 12px rgba(0, 113, 227, 0.28);
+      }
+      .topbar .brand > span { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+      .topbar-actions { display: flex; align-items: center; gap: 8px; }
+      .app-main {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 24px 72px;
+      }
+      .eyebrow {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: -0.005em;
+      }
+      .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: clamp(44px, 7vw, 88px) 0 18px;
+      }
+      .hero .eyebrow { color: var(--blue); margin-bottom: 14px; }
+      .hero-title {
+        margin: 0;
+        font-size: clamp(40px, 7vw, 74px);
+        line-height: 1.03;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        color: var(--ink);
+      }
+      .hero-sub {
+        max-width: 620px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: clamp(16px, 2vw, 21px);
+        line-height: 1.4;
+      }
+      .hero-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      .hero-chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .research-warning { margin: 0; }
+      .stack { display: grid; gap: 22px; }
+      .control-panel { position: static; top: auto; }
+      .setup-fields {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 4px;
+      }
+      .setup-fields .form-group { margin-bottom: 0; }
+      .input-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-top: 22px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+      }
+      .input-actions > div { display: grid; }
+      .input-actions strong { color: var(--ink); font-size: 13px; font-weight: 600; }
+      .input-actions span { margin-top: 2px; color: var(--muted); font-size: 12px; }
+      .input-actions .btn-primary { width: auto; min-width: 200px; margin-top: 0; }
+      .result-hero {
+        text-align: center;
+        padding: clamp(26px, 4vw, 40px);
+        background:
+          radial-gradient(120% 140% at 50% 0%, var(--blue-soft), transparent 60%),
+          var(--surface);
+      }
+      .result-title { margin-top: 4px; }
+      .result-hero-body { max-width: 640px; margin: 22px auto 0; }
+      .prediction-value {
+        margin: 8px 0 0;
+        font-size: clamp(64px, 12vw, 116px);
+        line-height: 0.98;
+        font-weight: 700;
+        letter-spacing: -0.055em;
+        background: linear-gradient(160deg, var(--blue), var(--teal));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .result-hero-body .probability-track { margin-top: 22px; }
+      .result-hero .pathway-strip { justify-content: center; }
+      .result-caption { margin-top: 16px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+      .result-facts {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        max-width: 640px;
+        margin: 22px auto 0;
+        text-align: left;
+      }
+      .result-facts .metric-card::after { display: none; }
+      .page-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 2px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        color: var(--quiet);
+        font-size: 12px;
+      }
+      @media (max-width: 760px) {
+        .setup-fields { grid-template-columns: 1fr; }
+        .result-facts { grid-template-columns: 1fr; }
+        .input-actions { flex-direction: column; align-items: stretch; }
+        .input-actions .btn-primary { width: 100%; }
+        .page-footer { flex-direction: column; align-items: flex-start; gap: 4px; }
+      }
     ")),
     tags$script(HTML("
       (function () {
@@ -1382,51 +1542,81 @@ ui <- fluidPage(
       });
     "))
   ),
-  div(
-    class = "app-header",
+  tags$header(
+    class = "topbar",
     div(
-      class = "brand-lockup",
-      div(class = "brand-mark", tags$span(class = "glyphicon glyphicon-stats", `aria-hidden` = "true")),
+      class = "topbar-inner",
       div(
-        div(class = "app-title", "SU 2026 - Stroke Prediction Studio"),
-        div(class = "app-kicker", "Strumento sperimentale di ricerca con spiegazione SHAP locale.")
-      )
-    ),
-    div(
-      class = "header-pills",
-      span(class = "status-pill", "Nested 5-fold CV"),
-      span(class = "status-pill", "Feature set validato"),
-      span(class = "status-pill", "SHAP locale"),
-      span(class = "status-pill", "Research only"),
-      tags$button(
-        id = "themeToggle",
-        class = "theme-toggle",
-        type = "button",
-        `aria-label` = "Cambia tema chiaro/scuro",
-        title = "Cambia tema",
-        tags$span(class = "icon-moon", `aria-hidden` = "true", HTML("&#9789;")),
-        tags$span(class = "icon-sun", `aria-hidden` = "true", HTML("&#9788;"))
+        class = "brand",
+        div(class = "brand-mark", tags$span(class = "glyphicon glyphicon-stats", `aria-hidden` = "true")),
+        tags$span("StrokePredict AI")
+      ),
+      div(
+        class = "topbar-actions",
+        span(class = "status-pill", "Research only"),
+        tags$button(
+          id = "themeToggle",
+          class = "theme-toggle",
+          type = "button",
+          `aria-label` = "Cambia tema chiaro/scuro",
+          title = "Cambia tema",
+          tags$span(class = "icon-moon", `aria-hidden` = "true", HTML("&#9789;")),
+          tags$span(class = "icon-sun", `aria-hidden` = "true", HTML("&#9788;"))
+        )
       )
     )
   ),
-  div(
-    class = "research-warning",
-    "RESEARCH USE ONLY — NOT FOR CLINICAL USE. Le stime non sono validate per diagnosi, triage o decisioni terapeutiche individuali."
-  ),
-  div(
-    class = "app-grid",
+  tags$main(
+    class = "app-main",
     div(
-      class = "control-panel",
-      div(class = "panel-eyebrow", "Setup"),
-      div(class = "section-title", "Predizione"),
-      selectInput("task_id", "Task predittivo", choices = task_choices, selected = "mrs3m_class_24h"),
-      uiOutput("model_selector"),
-      selectInput("record_id", "Modalità input", choices = "Manuale", selected = "Manuale"),
-      actionButton("predict_btn", "Predici", icon = icon("flash", lib = "glyphicon"), class = "btn-primary"),
-      div(class = "model-note", htmlOutput("model_notes"))
+      class = "hero",
+      div(class = "eyebrow", "Clinical research · model exploration"),
+      tags$h1(class = "hero-title", "Stroke Prediction Studio"),
+      tags$p(class = "hero-sub", "Predizione trasparente degli outcome, spiegazione SHAP locale e confronto dei modelli."),
+      div(
+        class = "hero-meta",
+        span(class = "hero-chip", "Nested 5-fold CV"),
+        span(class = "hero-chip", "Feature set validato"),
+        span(class = "hero-chip", "SHAP locale")
+      )
     ),
     div(
-      class = "main-stack",
+      class = "research-warning",
+      "RESEARCH USE ONLY — NOT FOR CLINICAL USE. Le stime non sono validate per diagnosi, triage o decisioni terapeutiche individuali."
+    ),
+    div(
+      class = "stack",
+      div(
+        class = "control-panel",
+        div(class = "panel-eyebrow", "1 · Configurazione"),
+        div(class = "section-title", "Outcome e modello"),
+        div(
+          class = "setup-fields",
+          div(selectInput("task_id", "Task predittivo", choices = task_choices, selected = "mrs3m_class_24h")),
+          div(uiOutput("model_selector")),
+          div(selectInput("record_id", "Modalità input", choices = "Manuale", selected = "Manuale"))
+        ),
+        div(class = "model-note", htmlOutput("model_notes"))
+      ),
+      div(
+        class = "input-panel",
+        div(
+          class = "panel-heading-row",
+          div(
+            div(class = "panel-eyebrow", "2 · Input"),
+            div(class = "section-title", "Variabili paziente")
+          )
+        ),
+        uiOutput("dynamic_inputs"),
+        div(
+          class = "input-actions",
+          div(
+            tags$strong("Pronto per il calcolo?"),
+            tags$span("Compila i campi richiesti, poi calcola la predizione.")
+          ),
+          actionButton("predict_btn", "Calcola predizione", icon = icon("flash", lib = "glyphicon"), class = "btn-primary")
+        )
+      ),
       uiOutput("prediction_card"),
       div(
         class = "force-panel animate-on-update",
@@ -1445,17 +1635,6 @@ ui <- fluidPage(
         )
       ),
       div(
-        class = "input-panel",
-        div(
-          class = "panel-heading-row",
-          div(
-            div(class = "panel-eyebrow", "Input"),
-            div(class = "section-title", "Variabili paziente")
-          )
-        ),
-        uiOutput("dynamic_inputs")
-      ),
-      div(
         class = "table-grid",
         div(
           class = "table-panel",
@@ -1469,6 +1648,11 @@ ui <- fluidPage(
           div(class = "section-title", "Feature selezionate"),
           DTOutput("feature_table")
         )
+      ),
+      div(
+        class = "page-footer",
+        tags$span("SU 2026 · Stroke Unit — Research prototype"),
+        tags$span("Not for clinical use")
       )
     )
   )
@@ -1664,18 +1848,21 @@ server <- function(input, output, session) {
       fill_width <- sprintf("%.1f%%", 100 * pmin(pmax((value - low) / max(high - low, 1e-6), 0), 1))
     }
     div(
-      class = "summary-panel animate-on-update",
+      class = "summary-panel result-hero animate-on-update",
+      div(class = "panel-eyebrow", "3 · Output del modello"),
+      div(class = "section-title result-title", "Risultato predittivo"),
       div(
-        class = "metric-grid",
-        div(
-          class = "metric-card metric-primary",
-          div(class = "metric-label", label),
-          div(class = "prediction-value", main),
-          div(class = "probability-track", div(class = "probability-fill", style = paste0("width:", fill_width, ";"))),
-          if (has_pathway) {
-            div(class = "pathway-strip", span(class = ivt_class, "IVT"), span(class = evt_class, "EVT"), span(class = timing_class, "Timing"))
-          }
-        ),
+        class = "result-hero-body",
+        div(class = "metric-label", label),
+        div(class = "prediction-value", main),
+        div(class = "probability-track", div(class = "probability-fill", style = paste0("width:", fill_width, ";"))),
+        if (has_pathway) {
+          div(class = "pathway-strip", span(class = ivt_class, "IVT"), span(class = evt_class, "EVT"), span(class = timing_class, "Timing"))
+        },
+        div(class = "result-caption", "Output sperimentale per ricerca. Non è una categoria di rischio né un'indicazione terapeutica.")
+      ),
+      div(
+        class = "result-facts",
         div(
           class = "metric-card",
           div(class = "metric-label", "Modello"),
