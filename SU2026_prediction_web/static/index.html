@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SU 2026 - Stroke Prediction Studio</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23e9f0ff'/%3E%3Cpath fill='%232563eb' d='M16 5 7 10v10l9 5 9-5V10l-9-5Zm0 3 6 3.4v6.9l-6 3.4-6-3.4v-6.9L16 8Zm-4 6h3v6h-3v-6Zm5 0h3v6h-3v-6Z'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="/static/styles.css?v=20260715-apple-v5" />
+    <link rel="stylesheet" href="/static/styles.css?v=20260715-apple-v6" />
     <script>
       (function () {
         try {
@@ -19,218 +19,169 @@
   </head>
   <body>
     <a class="skip-link" href="#mainContent">Vai al contenuto principale</a>
-    <div class="app-frame">
-      <aside class="nav-rail" aria-label="Navigazione applicazione">
+
+    <header class="topbar">
+      <div class="topbar-inner">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" role="img">
               <path d="M12 2.5 4.4 6.8v8.4l7.6 4.3 7.6-4.3V6.8L12 2.5Zm0 2.2 5.4 3.1v6.2L12 17.1 6.6 14V7.8L12 4.7Zm-3.2 4.1h2.3v6.5H8.8V8.8Zm4.1 0h2.3v6.5h-2.3V8.8Z" />
             </svg>
           </div>
-          <div>
-            <h1>StrokePredict AI</h1>
-            <p>Research prediction prototype</p>
-          </div>
+          <span>StrokePredict AI</span>
         </div>
-
-        <nav class="nav-list" aria-label="Sezioni">
-          <a class="nav-item active" href="#workspaceTop" aria-label="Dashboard" aria-current="page">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2v8.3a.8.8 0 0 1-.8.8h-4.6v-5.4H9.4v5.4H4.8a.8.8 0 0 1-.8-.8v-8.3Z" /></svg>
-            <span>Dashboard</span>
-          </a>
-          <a class="nav-item" href="#inputPanel" aria-label="Input">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12.2a4.1 4.1 0 1 0 0-8.2 4.1 4.1 0 0 0 0 8.2Zm-7 8.1c.7-3.6 3.2-5.5 7-5.5s6.3 1.9 7 5.5H5Z" /></svg>
-            <span>Input</span>
-          </a>
-          <a class="nav-item" href="#modelPanel" aria-label="Modello">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.9 7.2 4.1v8.1L12 19.3 4.8 15.1V7L12 2.9Zm0 2.1L7 7.9l5 2.9 5-2.9L12 5Zm-5.4 4.4v4.6l4.5 2.6v-4.6L6.6 9.4Zm10.8 0-4.5 2.6v4.6l4.5-2.6V9.4Z" /></svg>
-            <span>Modello</span>
-          </a>
-          <a class="nav-item" href="#forcePanel" aria-label="Explainability">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.5h3.4l3.1-10.2 3.1 7.1 2.2-3.8h4.2v2h-3l-3.6 6.2-2.6-6-1.9 6.7H4v-2Z" /></svg>
-            <span>Explainability</span>
-          </a>
-          <a class="nav-item" href="#reportPanel" aria-label="Report">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v3H5V4Zm0 5h14v3H5V9Zm0 5h14v3H5v-3Zm0 5h9v2H5v-2Z" /></svg>
-            <span>Report</span>
-          </a>
-        </nav>
-
-        <div class="project-card">
-          <div class="eyebrow">Progetto attivo</div>
-          <strong>SU 2026 Research Only</strong>
-          <span>Not for clinical use</span>
+        <div class="topbar-actions">
+          <span class="status-pill">Research only</span>
+          <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema chiaro/scuro" title="Cambia tema">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.1 3a1 1 0 0 0-.2 1.98 6.5 6.5 0 1 1-7 9.5 1 1 0 0 0-1.86.5A8.5 8.5 0 1 0 12.6 3.03a9.6 9.6 0 0 0-.5-.03Z" /></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5a1 1 0 0 1 1 1v1.5a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1Zm0 16.5a1 1 0 0 1 1 1V21a1 1 0 0 1-2 0v-1.5a1 1 0 0 1 1-1ZM21 11a1 1 0 0 1 0 2h-1.5a1 1 0 0 1 0-2H21ZM4.5 11a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1.5Zm14.14-6.14a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0ZM7.83 16.17a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 0 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0Zm10.81.06a1 1 0 0 1-1.41 1.41l-1.06-1.06a1 1 0 0 1 1.41-1.41l1.06 1.06ZM7.83 7.83A1 1 0 0 1 6.42 9.24L5.36 8.18A1 1 0 0 1 6.77 6.77l1.06 1.06Z" /></svg>
+          </button>
         </div>
-      </aside>
+      </div>
+    </header>
 
-      <main id="mainContent" class="app-shell" tabindex="-1">
-        <header class="topbar">
-          <div class="workspace-context">
-            <span class="workspace-context-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M5 4h14v4H5V4Zm0 6h6v10H5V10Zm8 0h6v4h-6v-4Zm0 6h6v4h-6v-4Z" /></svg>
-            </span>
-            <span>
-              <small>SU 2026 · Stroke Unit</small>
-              <strong>Outcome research workspace</strong>
-            </span>
-          </div>
-          <div class="top-actions">
-            <span class="validation-chip">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v3h2V5H5v14h5v-2H7V7Zm4 4h8v8h-8v-8Zm2 2v4h4v-4h-4Z" /></svg>
-              Nested CV
-            </span>
-            <span class="validation-chip">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v2H5V4Zm2 5h10v2H7V9Zm2 5h6v2H9v-2Zm3 4 2 2 4-4 1.4 1.4L14 22l-3.4-3.4L12 17.2Z" /></svg>
-              Feature set definito
-            </span>
-            <span class="status-pill">SHAP locale</span>
-            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema chiaro/scuro" title="Cambia tema">
-              <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.1 3a1 1 0 0 0-.2 1.98 6.5 6.5 0 1 1-7 9.5 1 1 0 0 0-1.86.5A8.5 8.5 0 1 0 12.6 3.03a9.6 9.6 0 0 0-.5-.03Z" /></svg>
-              <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5a1 1 0 0 1 1 1v1.5a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1Zm0 16.5a1 1 0 0 1 1 1V21a1 1 0 0 1-2 0v-1.5a1 1 0 0 1 1-1ZM21 11a1 1 0 0 1 0 2h-1.5a1 1 0 0 1 0-2H21ZM4.5 11a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1.5Zm14.14-6.14a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0ZM7.83 16.17a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 0 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0Zm10.81.06a1 1 0 0 1-1.41 1.41l-1.06-1.06a1 1 0 0 1 1.41-1.41l1.06 1.06ZM7.83 7.83A1 1 0 0 1 6.42 9.24L5.36 8.18A1 1 0 0 1 6.77 6.77l1.06 1.06Z" /></svg>
-            </button>
-            <div class="profile-chip" aria-label="Profilo">
-              <span class="avatar">CG</span>
-              <span>
-                <strong>Stroke Unit</strong>
-                <small>Research prototype</small>
-              </span>
+    <main id="mainContent" tabindex="-1">
+      <section id="workspaceTop" class="hero" tabindex="-1">
+        <div class="eyebrow">Clinical research · model exploration</div>
+        <h1>Stroke Prediction Studio</h1>
+        <p>Predizione trasparente degli outcome, confronto dei modelli e interpretabilità locale.</p>
+        <div class="hero-meta">
+          <span class="release-status" aria-label="Release del modello verificata">
+            <span aria-hidden="true"></span>
+            <span><strong>Release V2</strong><small>Artefatto verificato</small></span>
+          </span>
+          <span class="hero-note">Nested CV · SHAP locale · nessuna soglia clinica</span>
+        </div>
+      </section>
+
+      <section class="research-banner" role="note">
+        <span class="research-banner-icon" aria-hidden="true">R</span>
+        <div>
+          <strong>Solo per ricerca — non per uso clinico</strong>
+          <span>Le stime non guidano diagnosi, triage o terapia e non rappresentano categorie cliniche di rischio.</span>
+        </div>
+      </section>
+
+      <form id="predictionForm" class="stack">
+        <section class="panel setup-panel" aria-labelledby="setupTitle">
+          <div class="panel-heading compact">
+            <div>
+              <div class="step-label"><span>1</span> Configurazione</div>
+              <h2 id="setupTitle">Outcome e modello</h2>
             </div>
           </div>
-        </header>
 
-        <section id="workspaceTop" class="dashboard-title" tabindex="-1">
-          <div>
-            <div class="eyebrow">Clinical research · model exploration</div>
-            <h2>Stroke Prediction Studio</h2>
-            <p>Predizione trasparente degli outcome, confronto dei modelli e interpretabilità locale.</p>
-          </div>
-          <div class="release-status" aria-label="Release del modello verificata">
-            <span aria-hidden="true"></span>
-            <div><strong>Release V2</strong><small>Artefatto verificato</small></div>
-          </div>
-        </section>
-
-        <section class="research-banner" role="note">
-          <span class="research-banner-icon" aria-hidden="true">R</span>
-          <div>
-            <strong>Solo per ricerca — non per uso clinico</strong>
-            <span>Le stime non guidano diagnosi, triage o terapia e non rappresentano categorie cliniche di rischio.</span>
-          </div>
-        </section>
-
-        <section class="dashboard-grid">
-          <form id="predictionForm" class="workflow-grid">
-            <aside class="panel setup-panel" aria-labelledby="setupTitle">
-              <div class="panel-heading compact">
-                <div>
-                  <div class="step-label"><span>1</span> Configurazione</div>
-                  <h2 id="setupTitle">Outcome e modello</h2>
-                </div>
-              </div>
-
+          <div class="setup-fields">
+            <div>
               <label for="taskSelect">Task predittivo</label>
               <select id="taskSelect"></select>
-
+            </div>
+            <div>
               <label for="modelSelect">Modello predittivo</label>
               <select id="modelSelect"></select>
               <p class="field-help">Gli algoritmi alternativi servono al confronto sperimentale; il default segue il criterio dichiarato.</p>
-
-              <label class="sr-only" for="recordSelect">Modalità input</label>
-              <select id="recordSelect" class="sr-only" aria-hidden="true" tabindex="-1"></select>
-              <div class="setup-assurance">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 5 5.7v5.6c0 4.5 2.8 8 7 9.9 4.2-1.9 7-5.4 7-9.9V5.7l-7-2.9Zm0 2.1 5 2v4.4c0 3.4-1.9 6.2-5 7.8-3.1-1.6-5-4.4-5-7.8V6.9l5-2Zm-2.4 6.2 1.4-1.4 1.1 1.1 2.6-2.6 1.4 1.4-4 4-2.5-2.5Z" /></svg>
-                <span>Nessun record paziente è serializzato nell’artefatto.</span>
-              </div>
-              <div class="sr-only" aria-live="polite">
-                <span id="recordSummaryValue">Manuale</span>
-                <span id="pathwaySummaryValue">Da input</span>
-              </div>
-            </aside>
-
-            <section id="inputPanel" class="panel input-panel" tabindex="-1" aria-labelledby="inputTitle">
-              <div class="panel-heading">
-                <div>
-                  <div class="step-label"><span>2</span> Dati paziente</div>
-                  <h2 id="inputTitle">Variabili per la predizione</h2>
-                </div>
-                <span id="conditionalBadge" class="small-pill muted">Caricamento variabili</span>
-              </div>
-              <div id="inputGrid" class="input-grid"></div>
-              <div class="input-actions">
-                <div>
-                  <strong>Pronto per il calcolo?</strong>
-                  <span>I campi obbligatori devono essere compilati prima di procedere.</span>
-                </div>
-                <button id="predictButton" type="submit">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z" /></svg>
-                  Calcola predizione
-                </button>
-              </div>
-            </section>
-          </form>
-
-          <section class="panel prediction-panel" aria-labelledby="resultTitle">
-            <div class="panel-heading">
-              <div>
-                <div class="step-label"><span>3</span> Output del modello</div>
-                <h2 id="resultTitle">Risultato predittivo</h2>
-              </div>
-              <span class="small-pill">Nessuna soglia clinica</span>
             </div>
-            <div id="summaryPanel" class="summary-grid" role="status" aria-live="polite" aria-atomic="true"></div>
-          </section>
+          </div>
 
-          <section id="modelPanel" class="panel model-panel" tabindex="-1">
-            <div class="panel-heading compact">
-              <div>
-                <div class="eyebrow">Evidenza e specifiche</div>
-                <h2>Modello selezionato</h2>
-              </div>
-            </div>
-            <div id="modelNotes" class="model-notes"></div>
-          </section>
-
-          <section id="forcePanel" class="panel force-panel" tabindex="-1">
-            <div class="panel-heading">
-              <div>
-                <div class="eyebrow">Explainable AI</div>
-                <h2>Spiegazione locale SHAP</h2>
-              </div>
-              <span id="explanationBadge" class="small-pill">Input-specifico</span>
-            </div>
-            <div id="forcePlot" class="force-plot" role="status" aria-live="polite" tabindex="0"><div class="chart-empty">Caricamento modello...</div></div>
-            <p id="explanationNote" class="research-inline">I contributi SHAP descrivono associazioni condizionali del modello, non effetti protettivi o causali.</p>
-          </section>
-
-          <section class="panel violin-panel">
-            <div class="panel-heading">
-              <div>
-                <div class="eyebrow">Importanza descrittiva</div>
-                <h2>Profilo globale SHAP</h2>
-              </div>
-              <span id="violinBadge" class="small-pill">Profili aggregati</span>
-            </div>
-            <div id="violinPlot" class="violin-plot" role="status" aria-live="polite" tabindex="0"><div class="chart-empty">Calcolo profilo SHAP...</div></div>
-            <p class="section-note">Riepilogo descrittivo su profili aggregati sintetici: non rappresenta la distribuzione empirica della coorte.</p>
-          </section>
-
-          <section id="reportPanel" class="table-grid" tabindex="-1">
-            <section class="panel">
-              <div class="eyebrow">Dettaglio locale</div>
-              <h2>Contributi SHAP</h2>
-              <div id="shapTable"></div>
-            </section>
-            <section class="panel">
-              <div class="eyebrow">Specifiche del modello</div>
-              <h2>Predittori utilizzati</h2>
-              <div id="featureTable"></div>
-            </section>
-          </section>
+          <label class="sr-only" for="recordSelect">Modalità input</label>
+          <select id="recordSelect" class="sr-only" aria-hidden="true" tabindex="-1"></select>
+          <div class="setup-assurance">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 5 5.7v5.6c0 4.5 2.8 8 7 9.9 4.2-1.9 7-5.4 7-9.9V5.7l-7-2.9Zm0 2.1 5 2v4.4c0 3.4-1.9 6.2-5 7.8-3.1-1.6-5-4.4-5-7.8V6.9l5-2Zm-2.4 6.2 1.4-1.4 1.1 1.1 2.6-2.6 1.4 1.4-4 4-2.5-2.5Z" /></svg>
+            <span>Nessun record paziente è serializzato nell’artefatto.</span>
+          </div>
+          <div class="sr-only" aria-live="polite">
+            <span id="recordSummaryValue">Manuale</span>
+            <span id="pathwaySummaryValue">Da input</span>
+          </div>
         </section>
-      </main>
-    </div>
+
+        <section id="inputPanel" class="panel input-panel" tabindex="-1" aria-labelledby="inputTitle">
+          <div class="panel-heading">
+            <div>
+              <div class="step-label"><span>2</span> Dati paziente</div>
+              <h2 id="inputTitle">Variabili per la predizione</h2>
+            </div>
+            <span id="conditionalBadge" class="small-pill muted">Caricamento variabili</span>
+          </div>
+          <div id="inputGrid" class="input-grid"></div>
+          <div class="input-actions">
+            <div>
+              <strong>Pronto per il calcolo?</strong>
+              <span>I campi obbligatori devono essere compilati prima di procedere.</span>
+            </div>
+            <button id="predictButton" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z" /></svg>
+              Calcola predizione
+            </button>
+          </div>
+        </section>
+      </form>
+
+      <section class="panel prediction-panel result-hero" aria-labelledby="resultTitle">
+        <div class="panel-heading">
+          <div>
+            <div class="step-label"><span>3</span> Output del modello</div>
+            <h2 id="resultTitle">Risultato predittivo</h2>
+          </div>
+          <span class="small-pill">Nessuna soglia clinica</span>
+        </div>
+        <div id="summaryPanel" class="summary-grid" role="status" aria-live="polite" aria-atomic="true"></div>
+      </section>
+
+      <section id="modelPanel" class="panel model-panel" tabindex="-1">
+        <div class="panel-heading compact">
+          <div>
+            <div class="eyebrow">Evidenza e specifiche</div>
+            <h2>Modello selezionato</h2>
+          </div>
+        </div>
+        <div id="modelNotes" class="model-notes"></div>
+      </section>
+
+      <section id="forcePanel" class="panel force-panel" tabindex="-1">
+        <div class="panel-heading">
+          <div>
+            <div class="eyebrow">Explainable AI</div>
+            <h2>Spiegazione locale SHAP</h2>
+          </div>
+          <span id="explanationBadge" class="small-pill">Input-specifico</span>
+        </div>
+        <div id="forcePlot" class="force-plot" role="status" aria-live="polite" tabindex="0"><div class="chart-empty">Caricamento modello...</div></div>
+        <p id="explanationNote" class="research-inline">I contributi SHAP descrivono associazioni condizionali del modello, non effetti protettivi o causali.</p>
+      </section>
+
+      <section class="panel violin-panel">
+        <div class="panel-heading">
+          <div>
+            <div class="eyebrow">Importanza descrittiva</div>
+            <h2>Profilo globale SHAP</h2>
+          </div>
+          <span id="violinBadge" class="small-pill">Profili aggregati</span>
+        </div>
+        <div id="violinPlot" class="violin-plot" role="status" aria-live="polite" tabindex="0"><div class="chart-empty">Calcolo profilo SHAP...</div></div>
+        <p class="section-note">Riepilogo descrittivo su profili aggregati sintetici: non rappresenta la distribuzione empirica della coorte.</p>
+      </section>
+
+      <section id="reportPanel" class="table-grid" tabindex="-1">
+        <section class="panel">
+          <div class="eyebrow">Dettaglio locale</div>
+          <h2>Contributi SHAP</h2>
+          <div id="shapTable"></div>
+        </section>
+        <section class="panel">
+          <div class="eyebrow">Specifiche del modello</div>
+          <h2>Predittori utilizzati</h2>
+          <div id="featureTable"></div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>SU 2026 · Stroke Unit — Research prototype</span>
+        <span>Not for clinical use</span>
+      </footer>
+    </main>
 
     <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" hidden></div>
-    <script src="/static/app.js?v=20260715-apple-v5" defer></script>
+    <script src="/static/app.js?v=20260715-apple-v6" defer></script>
   </body>
 </html>
