@@ -1,8 +1,6 @@
 bridge_only <- tolower(Sys.getenv("SU2026_BRIDGE_ONLY", "false")) %in% c("1", "true", "yes")
-required_packages <- c(
-  if (!bridge_only) c("shiny", "DT", "ggplot2"),
-  "dplyr", "stringr", "glmnet", "rpart", "partykit", "ranger", "xgboost", "nnet"
-)
+required_packages <- c("shiny", "DT", "ggplot2", "dplyr", "stringr", "glmnet", "rpart", "partykit", "ranger", "xgboost", "nnet")
+packages_to_load <- if (bridge_only) c("dplyr", "stringr") else required_packages
 missing_packages <- setdiff(required_packages, rownames(installed.packages()))
 if (length(missing_packages) > 0) {
   stop(
@@ -10,7 +8,7 @@ if (length(missing_packages) > 0) {
     ". Installarli nell'ambiente del progetto prima di avviare l'app."
   )
 }
-invisible(lapply(required_packages, require, character.only = TRUE))
+invisible(lapply(packages_to_load, require, character.only = TRUE))
 
 `%||%` <- function(x, y) if (is.null(x) || length(x) == 0 || all(is.na(x))) y else x
 app_script_dir <- function() {
@@ -414,7 +412,29 @@ validate_input_values <- function(task, values) {
   )
 }
 
+ensure_model_namespace <- function(model_kind) {
+  package <- switch(
+    model_kind,
+    lasso_classification = "glmnet",
+    glmnet_regression = "glmnet",
+    ctree_classification = "partykit",
+    cart_classification = "rpart",
+    random_forest_classification = "ranger",
+    random_forest_regression = "ranger",
+    xgboost_classification = "xgboost",
+    xgboost_regression = "xgboost",
+    neural_network_classification = "nnet",
+    neural_network_regression = "nnet",
+    NULL
+  )
+  if (!is.null(package) && !requireNamespace(package, quietly = TRUE)) {
+    stop("Pacchetto R richiesto dal modello non disponibile: ", package)
+  }
+  invisible(TRUE)
+}
+
 predict_task <- function(task, x) {
+  ensure_model_namespace(task$model_kind)
   x <- as.matrix(x[, task$selected_design_features, drop = FALSE])
   if (task$model_kind == "lasso_classification") {
     prob <- as.numeric(stats::predict(task$model, newx = x, s = "lambda.1se", type = "response"))
