@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: stroke-prediction-studio
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    envVars:
+      - key: SU2026_PORTABLE_ARTIFACT
+        value: "1"
